@@ -3502,13 +3502,21 @@ namespace CoreSystems.Projectiles
 
         internal void SendAdvSyncTargetPacket()
         {
-            var packet = Session.I.AdvProjectileUpdateTargetPacketPool.Get();
-            
-            packet.PType = PacketType.AdvProjectileUpdateTargetSyncs;
+            Session.PacketInfo oldInfo;
+            AdvProjectileUpdateTargetPacket packet;
+            if (Session.I.PrunedPacketsToClient.TryGetValue(Info.AdvSyncId, out oldInfo) && oldInfo.Packet is AdvProjectileUpdateTargetPacket)
+            {
+                packet = (AdvProjectileUpdateTargetPacket)oldInfo.Packet;
+            }
+            else
+            {
+                packet = Session.I.AdvProjectileUpdateTargetPacketPool.Get();
+                packet.PType = PacketType.AdvProjectileUpdateTargetSyncs;
+            }
+
             packet.NetId = Info.AdvSyncId;
             packet.Info = AdvSyncTargetInfo.FromProjectile(this);
 
-            // This is leaking objects from the pool, but it's probably fine for now.
             Session.I.PrunedPacketsToClient[Info.AdvSyncId] = new Session.PacketInfo
             {
                 Packet = packet,
