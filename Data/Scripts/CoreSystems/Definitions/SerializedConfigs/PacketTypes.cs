@@ -121,7 +121,7 @@ namespace CoreSystems
     [ProtoInclude(49, typeof(AdvProjectileUpdateTargetPacket))]
     [ProtoInclude(50, typeof(AdvProjectilePositionBatchPacket))]
     [ProtoInclude(51, typeof(ClientAmmoRequestPacket))]
-    [ProtoInclude(52, typeof(WeaponAmmoPacket))]
+    //[ProtoInclude(52, typeof(NEXT PACKET TYPE HERE))]
     [ProtoInclude(53, typeof(WeaponHeatSyncPacket))]
     [ProtoInclude(54, typeof(WeaponOverridesPacket))]
     [ProtoInclude(55, typeof(UserTagPacket))]
