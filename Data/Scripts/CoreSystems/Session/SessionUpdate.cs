@@ -712,7 +712,7 @@ namespace CoreSystems
                                             if (mtt || projMism || primMism || fakeMism)
                                             {
                                                 if (DebugMod)
-                                                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:TurretAttached\tsub:mtt:{mtt}\tprojMism:{projMism}\tprimMism:{primMism}\tfakeMism:{fakeMism}\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", TargetSyncLog, tab: true);
+                                                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:TurretAttached\tsub:mtt:{mtt}\tprojMism:{projMism}\tprimMism:{primMism}\tfakeMism:{fakeMism}\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", Log.TargetSyncLog, tab: true);
                                                 w.Target.Reset(Tick, States.Expired);
                                             }
                                             else
@@ -723,7 +723,7 @@ namespace CoreSystems
                                             if (DebugMod)
                                             {
                                                 var mtt = w.System.MaxTrackingTime && Tick - w.Target.ChangeTick > w.System.MaxTrackingTicks;
-                                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:TurretAttachedTrk\tsub:mtt:{mtt}\taligned:{(!mtt ? Weapon.TargetAligned(w, w.Target, out targetPos).ToString() : "n/a")}\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", TargetSyncLog, tab: true);
+                                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:TurretAttachedTrk\tsub:mtt:{mtt}\taligned:{(!mtt ? Weapon.TargetAligned(w, w.Target, out targetPos).ToString() : "n/a")}\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", Log.TargetSyncLog, tab: true);
                                             }
                                             w.Target.Reset(Tick, States.Expired);
                                         }
@@ -735,7 +735,7 @@ namespace CoreSystems
                                             if (DebugMod)
                                             {
                                                 var mtt = w.System.MaxTrackingTime && Tick - w.Target.ChangeTick > w.System.MaxTrackingTicks;
-                                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:TrackTargets\tsub:mtt:{mtt}\taligned:{(!mtt ? Weapon.TargetAligned(w, w.Target, out targetPos).ToString() : "n/a")}\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", TargetSyncLog, tab: true);
+                                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:TrackTargets\tsub:mtt:{mtt}\taligned:{(!mtt ? Weapon.TargetAligned(w, w.Target, out targetPos).ToString() : "n/a")}\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", Log.TargetSyncLog, tab: true);
                                             }
                                             w.Target.Reset(Tick, States.Expired);
                                         }
@@ -743,7 +743,7 @@ namespace CoreSystems
                                     else if (w.System.MaxTrackingTime && Tick - w.Target.ChangeTick > w.System.MaxTrackingTicks)
                                     {
                                         if (DebugMod)
-                                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:NoTurretNoTrk\tsub:mtt:True\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", TargetSyncLog, tab: true);
+                                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tsrv-reset\treason:Expired\tcond:NoTurretNoTrk\tsub:mtt:True\ttsc:{Tick - w.Target.ChangeTick}\tmaxT:{w.System.MaxTrackingTime}\tmaxTicks:{w.System.MaxTrackingTicks}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}", Log.TargetSyncLog, tab: true);
                                         w.Target.Reset(Tick, States.Expired);
                                     }
                                 }
@@ -755,14 +755,14 @@ namespace CoreSystems
                             {
                                 var mfc = eTarget != null && eTarget.MarkedForClose;
                                 var nullTarget = !mfc && w.Target.HasTarget && w.Target.TargetObject == null && (w.TargetData.EntityId >= 0 || w.TargetData.EntityId <= -3);
-                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tclient-reset\treason:ServerReset\tcond:{(mfc ? "MarkedForClose" : (nullTarget ? "TargetObjectNull" : "DelayedClear"))}\thasTarget:{w.Target.HasTarget}\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tpacketEnt:{w.TargetData.EntityId}", TargetSyncLog, tab: true);
+                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tclient-reset\treason:ServerReset\tcond:{(mfc ? "MarkedForClose" : (nullTarget ? "TargetObjectNull" : "DelayedClear"))}\thasTarget:{w.Target.HasTarget}\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tpacketEnt:{w.TargetData.EntityId}", Log.TargetSyncLog, tab: true);
                             }
                             w.Target.Reset(Tick, States.ServerReset);
                         }
                         else if (pTarget != null && (!ai.LiveProjectile.ContainsKey(pTarget) || w.Target.TargetState == TargetStates.IsProjectile && pTarget.State != Projectile.ProjectileState.Alive && pTarget.State != Projectile.ProjectileState.ClientPhantom))
                         {
                             if (DebugMod && w.Target.HasTarget)
-                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tclient-reset\treason:Expired\tcond:Projectile\ttarget:{w.Target.TargetId}\tprojState:{pTarget.State}\tstate:{w.Target.TargetState}", TargetSyncLog, tab: true);
+                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tclient-reset\treason:Expired\tcond:Projectile\ttarget:{w.Target.TargetId}\tprojState:{pTarget.State}\tstate:{w.Target.TargetState}", Log.TargetSyncLog, tab: true);
                             w.Target.Reset(Tick, States.Expired);
                             w.FastTargetResetTick = Tick + 6; // Same logic as the server loop
                         }
@@ -844,7 +844,7 @@ namespace CoreSystems
                         if (DebugMod && w.DebugGateLast != shoot)
                         {
                             w.DebugGateLast = shoot;
-                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\t{shoot}\tcanShoot:{canShoot}\tshootRequest:{shootRequest}\taiCanShoot:{ai.CanShoot}\trequiresTarget:{aConst.RequiresTarget}\thasTarget:{w.Target.HasTarget}\tfinish:{finish}\toverRide:{overRide}\tnoFireTarget:{noFireTarget}\tsig:{wComp.ShootManager.Signal}\treloadingGuard:{reloadingGuard}\toverHeat:{overHeat}\tneedsHeat:{needsHeat}\tsequenceReady:{sequenceReady}\tsMode:{sMode}\tShootCount:{w.ShootCount}\tAiShooting:{w.AiShooting}\tTrigger:{wValues.State.Trigger}\tFreeze:{wComp.ShootManager.FreezeClientShoot}\tWaitResp:{wComp.ShootManager.WaitingShootResponse}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{w.ClientMakeUpShots}\tloading:{w.Loading}\twaitClnt:{w.Reload.WaitForClient}\twaitingSrv:{w.ClientReloadWaitingForServer}\trelStart:{w.Reload.StartId}\tcliStart:{w.ClientStartId}\trelEnd:{w.Reload.EndId}\tcliEnd:{w.ClientEndId}", ShootGateLog, tab: true);
+                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\t{shoot}\tcanShoot:{canShoot}\tshootRequest:{shootRequest}\taiCanShoot:{ai.CanShoot}\trequiresTarget:{aConst.RequiresTarget}\thasTarget:{w.Target.HasTarget}\tfinish:{finish}\toverRide:{overRide}\tnoFireTarget:{noFireTarget}\tsig:{wComp.ShootManager.Signal}\treloadingGuard:{reloadingGuard}\toverHeat:{overHeat}\tneedsHeat:{needsHeat}\tsequenceReady:{sequenceReady}\tsMode:{sMode}\tShootCount:{w.ShootCount}\tAiShooting:{w.AiShooting}\tTrigger:{wValues.State.Trigger}\tFreeze:{wComp.ShootManager.FreezeClientShoot}\tWaitResp:{wComp.ShootManager.WaitingShootResponse}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{w.ClientMakeUpShots}\tloading:{w.Loading}\twaitClnt:{w.Reload.WaitForClient}\twaitingSrv:{w.ClientReloadWaitingForServer}\trelStart:{w.Reload.StartId}\tcliStart:{w.ClientStartId}\trelEnd:{w.Reload.EndId}\tcliEnd:{w.ClientEndId}", Log.ShootGateLog, tab: true);
                         }
 
                         if (DebugMod && IsClient && !shoot && canShoot && ai.CanShoot && w.Target.HasTarget && !finish && wComp.ShootManager.Signal != Weapon.ShootManager.Signals.Manual)
@@ -860,7 +860,7 @@ namespace CoreSystems
                             if (blk != w.DebugShootBlockLast)
                             {
                                 w.DebugShootBlockLast = blk;
-                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tshoot-block\tcanShoot:{canShoot}\tanyShot:{anyShot}\tautoShot:{autoShot}\taiShooting:{w.AiShooting}\taiCanShoot:{ai.CanShoot}\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}\ttrigger:{wValues.State.Trigger}\tsMode:{sMode}\tshootCount:{w.ShootCount}\tonConf:{onConfrimed}\tnoShootDelay:{noShootDelay}\tfinish:{finish}\tfreeze:{wComp.ShootManager.FreezeClientShoot}\twaitResp:{wComp.ShootManager.WaitingShootResponse}\tsig:{wComp.ShootManager.Signal}\tblk:{blk}\ttickSinceChange:{Tick - w.Target.ChangeTick}", ShootGateLog, tab: true);
+                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tshoot-block\tcanShoot:{canShoot}\tanyShot:{anyShot}\tautoShot:{autoShot}\taiShooting:{w.AiShooting}\taiCanShoot:{ai.CanShoot}\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\ttarget:{w.Target.TargetId}\ttrigger:{wValues.State.Trigger}\tsMode:{sMode}\tshootCount:{w.ShootCount}\tonConf:{onConfrimed}\tnoShootDelay:{noShootDelay}\tfinish:{finish}\tfreeze:{wComp.ShootManager.FreezeClientShoot}\twaitResp:{wComp.ShootManager.WaitingShootResponse}\tsig:{wComp.ShootManager.Signal}\tblk:{blk}\ttickSinceChange:{Tick - w.Target.ChangeTick}", Log.ShootGateLog, tab: true);
                             }
                         }
 
@@ -912,11 +912,11 @@ namespace CoreSystems
                             var dotPkt = pktV && pDir.LengthSquared() > 0 && w.MyPivotFwd.LengthSquared() > 0 ? Vector3D.Dot(w.MyPivotFwd, pDir) / (w.MyPivotFwd.Length() * System.Math.Sqrt(pDir.LengthSquared())) : 999;
                             var pktMatch = pktV && w.TargetData.EntityId == w.Target.TargetId;
                             var leadT = tDir.LengthSquared() > 0 && cDir.LengthSquared() > 0 ? Vector3D.Dot(tDir, cDir) / (System.Math.Sqrt(tDir.LengthSquared()) * System.Math.Sqrt(cDir.LengthSquared())) : 999;
-                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tshot-opp\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\tobjNull:{tEnt == null}\tobjMFC:{tEnt != null && tEnt.MarkedForClose}\tcenterZero:{tCenter.IsZero()}\tlock:{lockOk}\taimed:{aimed}\trotorDist:{aimedDist}\tmaxDet:{wComp.MaxDetectDistanceSqr}\taiShooting:{w.AiShooting}\tanyShot:{anyShot}\tautoShot:{autoShot}\tshootRequest:{shootRequest}\tshootCount:{w.ShootCount}\tcanShoot:{canShoot}\tcanB:{canB}\tloading:{w.Loading}\tnoAmmo:{noAmmo}\twaitClnt:{w.Reload.WaitForClient}\twaitingSrv:{w.ClientReloadWaitingForServer}\tmakeup:{w.ClientMakeUpShots}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tfinishShots:{w.FinishShots}\theat:{w.PartState.Heat}\tohCd:{w.OverHeatCountDown}\tsig:{wComp.ShootManager.Signal}\ttarget:{w.Target.TargetId}\tpacketEnt:{w.TargetData.EntityId}\ttickSinceChange:{Tick - w.Target.ChangeTick}\tvalidEst:{validEst}\tresetSub:{resetSub}\tmanual:{manual}\tpainter:{painter}\tinRge:{inRge}\trt:{rt}\tae:{ae}\tcam:{cam}\tdotT:{dotT}\tdotC:{dotC}\tdotPkt:{dotPkt}\tpktV:{pktV}\tpktMatch:{pktMatch}\tleadT:{leadT}\taz:{w.Azimuth}\tel:{w.Elevation}\tminAz:{w.MinAzToleranceRadians}\tmaxAz:{w.MaxAzToleranceRadians}\tminEl:{w.MinElToleranceRadians}\tmaxEl:{w.MaxElToleranceRadians}\tlookAtFail:{w.LookAtFailCount}", ShootGateLog, tab: true);
+                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tshot-opp\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\tobjNull:{tEnt == null}\tobjMFC:{tEnt != null && tEnt.MarkedForClose}\tcenterZero:{tCenter.IsZero()}\tlock:{lockOk}\taimed:{aimed}\trotorDist:{aimedDist}\tmaxDet:{wComp.MaxDetectDistanceSqr}\taiShooting:{w.AiShooting}\tanyShot:{anyShot}\tautoShot:{autoShot}\tshootRequest:{shootRequest}\tshootCount:{w.ShootCount}\tcanShoot:{canShoot}\tcanB:{canB}\tloading:{w.Loading}\tnoAmmo:{noAmmo}\twaitClnt:{w.Reload.WaitForClient}\twaitingSrv:{w.ClientReloadWaitingForServer}\tmakeup:{w.ClientMakeUpShots}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tfinishShots:{w.FinishShots}\theat:{w.PartState.Heat}\tohCd:{w.OverHeatCountDown}\tsig:{wComp.ShootManager.Signal}\ttarget:{w.Target.TargetId}\tpacketEnt:{w.TargetData.EntityId}\ttickSinceChange:{Tick - w.Target.ChangeTick}\tvalidEst:{validEst}\tresetSub:{resetSub}\tmanual:{manual}\tpainter:{painter}\tinRge:{inRge}\trt:{rt}\tae:{ae}\tcam:{cam}\tdotT:{dotT}\tdotC:{dotC}\tdotPkt:{dotPkt}\tpktV:{pktV}\tpktMatch:{pktMatch}\tleadT:{leadT}\taz:{w.Azimuth}\tel:{w.Elevation}\tminAz:{w.MinAzToleranceRadians}\tmaxAz:{w.MaxAzToleranceRadians}\tminEl:{w.MinElToleranceRadians}\tmaxEl:{w.MaxElToleranceRadians}\tlookAtFail:{w.LookAtFailCount}", Log.ShootGateLog, tab: true);
                         }
                         else
                         {
-                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\ttarget-opp\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\ttsc:{Tick - w.Target.ChangeTick}\tobjNull:{w.Target.TargetObject == null}\ttarget:{w.Target.TargetId}", ShootGateLog, tab: true);
+                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\ttarget-opp\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\ttsc:{Tick - w.Target.ChangeTick}\tobjNull:{w.Target.TargetObject == null}\ttarget:{w.Target.TargetId}", Log.ShootGateLog, tab: true);
                         }
                         }
 
@@ -935,7 +935,7 @@ namespace CoreSystems
                             if (w.System.DesignatorWeapon) sCanB |= 4;
                             if (!sequenceReady) sCanB |= 8;
                             if (needsHeat) sCanB |= 16;
-                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tshot-opp\tside:srv\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\tobjNull:{sEnt == null}\tcenterZero:{sCenter.IsZero()}\tlock:{w.TargetLock}\taiShooting:{w.AiShooting}\tshootRequest:{shootRequest}\tshootCount:{w.ShootCount}\tcanShoot:{canShoot}\tcanB:{sCanB}\theat:{w.PartState.Heat}\tohCd:{w.OverHeatCountDown}\tsig:{wComp.ShootManager.Signal}\ttarget:{w.Target.TargetId}\ttickSinceChange:{Tick - w.Target.ChangeTick}\tsDotT:{sDotT}\tsDotC:{sDotC}\tsLead:{sLead}\taz:{w.Azimuth}\tel:{w.Elevation}\tminAz:{w.MinAzToleranceRadians}\tmaxAz:{w.MaxAzToleranceRadians}\tminEl:{w.MinElToleranceRadians}\tmaxEl:{w.MaxElToleranceRadians}\tlookAtFail:{w.LookAtFailCount}", ShootGateLog, tab: true);
+                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tshot-opp\tside:srv\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\tobjNull:{sEnt == null}\tcenterZero:{sCenter.IsZero()}\tlock:{w.TargetLock}\taiShooting:{w.AiShooting}\tshootRequest:{shootRequest}\tshootCount:{w.ShootCount}\tcanShoot:{canShoot}\tcanB:{sCanB}\theat:{w.PartState.Heat}\tohCd:{w.OverHeatCountDown}\tsig:{wComp.ShootManager.Signal}\ttarget:{w.Target.TargetId}\ttickSinceChange:{Tick - w.Target.ChangeTick}\tsDotT:{sDotT}\tsDotC:{sDotC}\tsLead:{sLead}\taz:{w.Azimuth}\tel:{w.Elevation}\tminAz:{w.MinAzToleranceRadians}\tmaxAz:{w.MaxAzToleranceRadians}\tminEl:{w.MinElToleranceRadians}\tmaxEl:{w.MaxElToleranceRadians}\tlookAtFail:{w.LookAtFailCount}", Log.ShootGateLog, tab: true);
                         }
 
                         if (shoot) {
@@ -1056,7 +1056,7 @@ namespace CoreSystems
 
                     var clientHoldsReplica = !IsServer && w.Target.HasTarget && w.Target.TargetState == TargetStates.IsEntity && w.Target.TargetId == w.TargetData.EntityId;
                     if (DebugMod && clientHoldsReplica)
-                        Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tclient-hold\ttarget:{w.Target.TargetId}\tpacketEnt:{w.TargetData.EntityId}\tstate:{w.Target.TargetState}", TargetSyncLog, tab: true);
+                        Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tclient-hold\ttarget:{w.Target.TargetId}\tpacketEnt:{w.TargetData.EntityId}\tstate:{w.Target.TargetState}", Log.TargetSyncLog, tab: true);
 
                     var checkObstructions = w.System.ScanNonThreats && ai.Obstructions.Count > 0;
                     var readyToAcquire = seekProjectile || comp.Data.Repo.Values.State.TrackingReticle || checkObstructions || (comp.DetectOtherSignals && ai.DetectionInfo.OtherInRange || ai.DetectionInfo.PriorityInRange) && ai.DetectionInfo.ValidSignalExists(w);
@@ -1088,7 +1088,7 @@ namespace CoreSystems
                             if (MpActive && IsServer)
                             {
                                 if (DebugMod)
-                                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tserver-push\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tposId:{w.TargetData.EntityId}", TargetSyncLog, tab: true);
+                                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tserver-push\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tposId:{w.TargetData.EntityId}", Log.TargetSyncLog, tab: true);
                                 w.Target.PushTargetToClient(w);
                             }
                         }
@@ -1109,7 +1109,7 @@ namespace CoreSystems
                 {
                     var losBlocked = w.Comp.IsBlock && smartTimer && !w.System.DisableLosCheck && !w.SmartLos();
                     var noLoadedAmmo = w.ProtoWeaponAmmo.CurrentAmmo == 0 && w.ClientMakeUpShots == 0 && w.ActiveAmmoDef.AmmoDef.Const.Reloadable;
-                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tquickSkip\tinvalid:{invalidWeapon}\tlosBlocked:{losBlocked}\tpause:{w.PauseShoot}\tmaxSmarts:{w.LiveSmarts >= w.System.MaxActiveProjectiles}\tnoLoadedAmmo:{noLoadedAmmo}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{w.ClientMakeUpShots}\tloading:{w.Loading}\twaitClnt:{w.Reload.WaitForClient}\twaitingSrv:{w.ClientReloadWaitingForServer}", ShootGateLog, tab: true);
+                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Tick}\tquickSkip\tinvalid:{invalidWeapon}\tlosBlocked:{losBlocked}\tpause:{w.PauseShoot}\tmaxSmarts:{w.LiveSmarts >= w.System.MaxActiveProjectiles}\tnoLoadedAmmo:{noLoadedAmmo}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{w.ClientMakeUpShots}\tloading:{w.Loading}\twaitClnt:{w.Reload.WaitForClient}\twaitingSrv:{w.ClientReloadWaitingForServer}", Log.ShootGateLog, tab: true);
                 }
                 w.DebugQuickSkipLast = quickSkip;
                 if (quickSkip)

@@ -40,15 +40,15 @@ namespace CoreSystems
                         break;
                     }
                     case 1: {
-                        Log.LineShortDate(message, "perf");
+                        Log.LineShortDate(message, Log.PerfLog);
                         break;
                     }
                     case 2: {
-                        Log.LineShortDate(message, "stats");
+                        Log.LineShortDate(message, Log.StatsLog);
                         break;
                     }
                     case 3: { 
-                        Log.LineShortDate(message, "net");
+                        Log.LineShortDate(message, Log.NetLog);
                         break;
                     }
                     case 4: {
@@ -286,7 +286,7 @@ namespace CoreSystems
                     {
                         Log.LineShortDate(
                             $"        [BadClientPacket] Type:{packetObj.Packet.PType} - Size:{packetObj.PacketSize}",
-                            "net");
+                            Log.NetLog);
                         Reporter.ReportData[PacketType.Invalid].Add(packetObj.Report);
                         invalidType = true;
                         packetObj.Report.PacketValid = false;
@@ -529,7 +529,7 @@ namespace CoreSystems
             }
 
             if (!packetObj.Report.PacketValid)
-                Log.LineShortDate(packetObj.ErrorPacket.Error, "net");
+                Log.LineShortDate(packetObj.ErrorPacket.Error, Log.NetLog);
 
             PacketObjPool.Return(packetObj);
         }
@@ -817,7 +817,7 @@ namespace CoreSystems
                                   $"ASpw:{AdvProjectileSpawnPacketPool.Count} - " +
                                   $"ADth:{AdvProjectileDeathPacketPool.Count} - " +
                                   $"ATgt:{AdvProjectileUpdateTargetPacketPool.Count} - " +
-                                  $"Pos:{ProtoWeaponProPosPacketPool.Count}", "stats");
+                                  $"Pos:{ProtoWeaponProPosPacketPool.Count}", Log.StatsLog);
             }*/
 
             for (var index = 0; index < PacketsToClient.Count; index++)

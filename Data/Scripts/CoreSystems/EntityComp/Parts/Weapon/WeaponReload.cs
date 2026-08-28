@@ -188,7 +188,7 @@ namespace CoreSystems.Platform
 if (Session.I.DebugMod)
             {
                 var movedAmmo = ProtoWeaponAmmo.CurrentAmmo;
-                Log.Line($"{Comp.CoreEntity.EntityId}\t{PartId}\t{Session.I.Tick}\tclient-reload-start\tsyncUp\trunAmmoToMakeUp:{movedAmmo}\trelStart:{Reload.StartId}\tcliStart:{ClientStartId}\twaitingSrv:{ClientReloadWaitingForServer}", Session.ReloadSyncLog, tab: true);
+                Log.Line($"{Comp.CoreEntity.EntityId}\t{PartId}\t{Session.I.Tick}\tclient-reload-start\tsyncUp\trunAmmoToMakeUp:{movedAmmo}\trelStart:{Reload.StartId}\tcliStart:{ClientStartId}\twaitingSrv:{ClientReloadWaitingForServer}", Log.ReloadSyncLog, tab: true);
             }
 
             ClientReloadWaitingForServer = false;

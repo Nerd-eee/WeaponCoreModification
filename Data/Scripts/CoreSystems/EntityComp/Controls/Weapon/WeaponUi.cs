@@ -893,7 +893,7 @@ namespace CoreSystems
             if (!ready)
             {
                 var ammoState = comp.AmmoStatus();
-                Log.Line($"Shoot failed: wait:{comp.ShootManager.WaitingShootResponse} - freeze:{comp.ShootManager.FreezeClientShoot} - lockTime:{Session.I.Tick - comp.ShootManager.WaitingTick} - shootTime:{Session.I.Tick - comp.ShootManager.LastShootTick} - cycles:{comp.ShootManager.CompletedCycles} - ammoState:{ammoState} ", Session.InputLog);
+                Log.Line($"Shoot failed: wait:{comp.ShootManager.WaitingShootResponse} - freeze:{comp.ShootManager.FreezeClientShoot} - lockTime:{Session.I.Tick - comp.ShootManager.WaitingTick} - shootTime:{Session.I.Tick - comp.ShootManager.LastShootTick} - cycles:{comp.ShootManager.CompletedCycles} - ammoState:{ammoState} ", Log.InputLog);
                 var overWaitTime = comp.ShootManager.WaitingTick > 0 && Session.I.Tick - comp.ShootManager.WaitingTick > 180;
                 var overFreezeTime = comp.ShootManager.FreezeTick > 0 && Session.I.Tick - comp.ShootManager.FreezeTick > 180;
 
@@ -902,7 +902,7 @@ namespace CoreSystems
 
                 if (freezeOver || waitOver)
                 {
-                    Log.Line($"freezeOver:{freezeOver} - waitOver:{waitOver} - higherClientCount:{higherClientCount}", Session.InputLog);
+                    Log.Line($"freezeOver:{freezeOver} - waitOver:{waitOver} - higherClientCount:{higherClientCount}", Log.InputLog);
                     comp.ShootManager.FailSafe();
                 }
             }

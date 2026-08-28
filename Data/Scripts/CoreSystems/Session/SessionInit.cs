@@ -120,11 +120,6 @@ namespace CoreSystems
             }
         }
 
-        public const string InputLog = "input";
-        public const string ShootGateLog = "shootgate";
-        public const string ReloadSyncLog = "reloadsync";
-        public const string TargetSyncLog = "targetsync";
-        public const string CycleSyncLog = "cyclesync";
         internal void Init()
         {
             if (Inited) return;
@@ -336,7 +331,7 @@ namespace CoreSystems
                         {
                             var prevName = prevDef.ModPath.Split('\\');
                             var wepName = x.ModPath.Split('\\');
-                            Log.Line($"WeaponDef '{x.HardPoint.PartName}' has a definition with a higher priority present for {mount.SubtypeId}! current prio: {prevPrio} --> attempted prio: {x.HardPoint.DefinitionPriority}, current mod: {prevName[prevName.Length - 1]}, attempted mod: {wepName[wepName.Length - 1]}", "debug");
+                            Log.Line($"WeaponDef '{x.HardPoint.PartName}' has a definition with a higher priority present for {mount.SubtypeId}! current prio: {prevPrio} --> attempted prio: {x.HardPoint.DefinitionPriority}, current mod: {prevName[prevName.Length - 1]}, attempted mod: {wepName[wepName.Length - 1]}", Log.DebugLog);
                             continue;
                         }
                         if (prevDef != null)
@@ -354,7 +349,7 @@ namespace CoreSystems
                             var prevName = prevDef.ModPath.Split('\\');
                             var wepName = x.ModPath.Split('\\');
                             
-                            Log.Line($"WeaponDef '{x.HardPoint.PartName}' was overriden for {mount.SubtypeId}! prev prio: {prevPrio} --> new prio: {x.HardPoint.DefinitionPriority}, old mod: {prevName[prevName.Length-1]}, new mod: {wepName[wepName.Length-1]}", "debug");
+                            Log.Line($"WeaponDef '{x.HardPoint.PartName}' was overriden for {mount.SubtypeId}! prev prio: {prevPrio} --> new prio: {x.HardPoint.DefinitionPriority}, old mod: {prevName[prevName.Length-1]}, new mod: {wepName[wepName.Length-1]}", Log.DebugLog);
                         }
 
                         _subTypeMaps[subTypeId][partAttachmentId] = extraInfo;
@@ -433,12 +428,12 @@ namespace CoreSystems
                                 tempammostring += "0\t0\t0\t0\tNoFallOff\t";
                             }
                             tempammostring += $"{x.Ammos[y].Trajectory.AccelPerSec}\t{x.Ammos[y].Trajectory.DesiredSpeed}\t{x.Ammos[y].Trajectory.MaxTrajectory}\t{x.Ammos[y].Trajectory.MaxLifeTime}";
-                            Log.Stats($"{tempammostring}", "ammostats");
+                            Log.Stats($"{tempammostring}", Log.AmmoStatsLog);
                             tempammo = tempammo + "\t" + x.Ammos[y].AmmoRound;
                         }
 
                         Log.Stats($"{x.HardPoint.PartName}\t{x.Targeting.MaxTargetDistance}\t{x.Targeting.MinTargetDistance}\t{x.HardPoint.DeviateShotAngle}\t{x.HardPoint.AimingTolerance}\t{x.HardPoint.AimLeadingPrediction}\t{x.HardPoint.HardWare.RotateRate}\t{x.HardPoint.HardWare.ElevateRate}\t{x.HardPoint.HardWare.IdlePower}\t{x.HardPoint.Loading.RateOfFire}\t" +
-                            $"{x.HardPoint.Loading.ReloadTime}\t{x.HardPoint.Loading.HeatPerShot}\t{x.HardPoint.Loading.MaxHeat}\t{x.HardPoint.Loading.HeatSinkRate}\t{x.HardPoint.Loading.ShotsInBurst}\t{x.HardPoint.Loading.DelayAfterBurst}\t{tempammo}", "wepstats");
+                            $"{x.HardPoint.Loading.ReloadTime}\t{x.HardPoint.Loading.HeatPerShot}\t{x.HardPoint.Loading.MaxHeat}\t{x.HardPoint.Loading.HeatSinkRate}\t{x.HardPoint.Loading.ShotsInBurst}\t{x.HardPoint.Loading.DelayAfterBurst}\t{tempammo}", Log.WepStatsLog);
                     }
                 }
             }

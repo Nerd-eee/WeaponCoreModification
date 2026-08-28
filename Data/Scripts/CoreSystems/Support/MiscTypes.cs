@@ -131,7 +131,7 @@ namespace CoreSystems.Support
                         if (w.Target.CurrentState != States.NoTargetsSeen)
                         {
                             if (Session.I.DebugMod)
-                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\tclient-reset\treason:NoTargetsSeen\tcond:ProjectileSync\thasTarget:{w.Target.HasTarget}\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tpacketEnt:{tData.EntityId}\tcurNew:{w.NewTarget.CurrentState}", Session.TargetSyncLog, tab: true);
+                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\tclient-reset\treason:NoTargetsSeen\tcond:ProjectileSync\thasTarget:{w.Target.HasTarget}\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tpacketEnt:{tData.EntityId}\tcurNew:{w.NewTarget.CurrentState}", Log.TargetSyncLog, tab: true);
 
                             w.Target.Reset(Session.I.Tick, States.NoTargetsSeen, !w.Comp.Data.Repo.Values.State.TrackingReticle && w.Comp.Data.Repo.Values.Set.Overrides.Control != ProtoWeaponOverrides.ControlModes.Painter);
                         }
@@ -180,7 +180,7 @@ namespace CoreSystems.Support
                                     projState = (int)((Projectile)w.Target.TargetObject).State;
 
                                 if (Session.I.DebugMod)
-                                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\tclient-reset\treason:NoTargetsSeen\tcond:ProjectileSyncFail\thasTarget:{w.Target.HasTarget}\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tpacketEnt:{tData.EntityId}\tprojState:{projState}", Session.TargetSyncLog, tab: true);
+                                    Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\tclient-reset\treason:NoTargetsSeen\tcond:ProjectileSyncFail\thasTarget:{w.Target.HasTarget}\ttarget:{w.Target.TargetId}\tstate:{w.Target.TargetState}\tpacketEnt:{tData.EntityId}\tprojState:{projState}", Log.TargetSyncLog, tab: true);
 
                                 w.Target.Reset(Session.I.Tick, States.NoTargetsSeen, !w.Comp.Data.Repo.Values.State.TrackingReticle && w.Comp.Data.Repo.Values.Set.Overrides.Control != ProtoWeaponOverrides.ControlModes.Painter);
                             }
@@ -201,7 +201,7 @@ namespace CoreSystems.Support
                     appliedId = ((MyEntity)TargetObject).EntityId;
                 else if (TargetObject is Projectile)
                     appliedId = (long)((Projectile)TargetObject).Info.Id;
-                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\ttarget-apply\tpacketEnt:{tData.EntityId}\tapplied:{appliedId}\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\tcurState:{w.Target.CurrentState}\tdelayReset:{w.DelayedTargetResetTick}", Session.TargetSyncLog, tab: true);
+                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\ttarget-apply\tpacketEnt:{tData.EntityId}\tapplied:{appliedId}\thasTarget:{w.Target.HasTarget}\tstate:{w.Target.TargetState}\tcurState:{w.Target.CurrentState}\tdelayReset:{w.DelayedTargetResetTick}", Log.TargetSyncLog, tab: true);
             }
 
             w.Target.ChangeTick = Session.I.Tick;
@@ -228,7 +228,7 @@ namespace CoreSystems.Support
         internal void Set(object target, Vector3D pos, double shortDist, double origDist, long topEntId, bool isFakeTarget = false, bool isSG = false)
         {
             if (Session.I.DebugMod && Session.I.IsClient && target is MyEntity)
-                Log.Line($"{Weapon?.Comp.CoreEntity.EntityId}\t{Weapon?.PartId}\t{Session.I.Tick}\ttarget-set\tent:{((MyEntity)target).EntityId}\tstate:{TargetState}\thasTarget:{HasTarget}", Session.TargetSyncLog, tab: true);
+                Log.Line($"{Weapon?.Comp.CoreEntity.EntityId}\t{Weapon?.PartId}\t{Session.I.Tick}\ttarget-set\tent:{((MyEntity)target).EntityId}\tstate:{TargetState}\thasTarget:{HasTarget}", Log.TargetSyncLog, tab: true);
             TargetObject = target;
             TargetPos = pos;
             HitShortDist = shortDist;
@@ -279,7 +279,7 @@ namespace CoreSystems.Support
             }
 
             if (Session.I.DebugMod && Session.I.IsClient && (expire || prevState == TargetStates.IsEntity))
-                Log.Line($"{Weapon?.Comp.CoreEntity.EntityId}\t{Weapon?.PartId}\t{expiredTick}\ttarget-reset\treason:{reason}\tfrom:{prevState}\tto:{TargetState}\texpire:{expire}\thasTarget:{prevHasTarget}\ttarget:{prevTargetId}\tobjNull:{TargetObject == null}", Session.TargetSyncLog, tab: true);
+                Log.Line($"{Weapon?.Comp.CoreEntity.EntityId}\t{Weapon?.PartId}\t{expiredTick}\ttarget-reset\treason:{reason}\tfrom:{prevState}\tto:{TargetState}\texpire:{expire}\thasTarget:{prevHasTarget}\ttarget:{prevTargetId}\tobjNull:{TargetObject == null}", Log.TargetSyncLog, tab: true);
 
             if (Weapon != null)
             {

@@ -61,7 +61,7 @@ namespace CoreSystems
                 message += $"{resultPair.Message}: {resultPair.Valid} - ";
             }
             data.ErrorPacket.Error = message;
-            Log.LineShortDate(data.ErrorPacket.Error, "net");
+            Log.LineShortDate(data.ErrorPacket.Error, Log.NetLog);
             return false;
         }
 
