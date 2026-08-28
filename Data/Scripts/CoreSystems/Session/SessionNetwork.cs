@@ -252,12 +252,12 @@ namespace CoreSystems
                         if (Settings.Enforcement.ProhibitShooting != ((ShootingChangedPacket)packetObj.Packet).Value)
                         {
                             Settings.Enforcement.ProhibitShooting = ((ShootingChangedPacket)packetObj.Packet).Value;
-                            ShowLocalNotify(
-                                $"Shooting {(Settings.Enforcement.ProhibitShooting ? "Disabled" : "Enabled")}", 5000,
-                                "White");
-                        }
+                            string s = $"Shooting {(Settings.Enforcement.ProhibitShooting ? "Disabled" : "Enabled")}";
+                            ShowLocalNotify(s, 5000, "White");
+                            Log.Line(s);
+                            }
 
-                        break;
+                            break;
                     }
                     case PacketType.WeaponHeatSync:
                     {
@@ -266,6 +266,15 @@ namespace CoreSystems
                         packetObj.Report.PacketValid = true;
                         break;
                     }
+                    case PacketType.DebugTogglePacket:
+                        if (((DebugTogglePacket)packetObj.Packet).Value != DebugMod)
+                        {
+                            DebugMod = ((DebugTogglePacket)packetObj.Packet).Value;
+                            string s = $"Debug changed from server: now {DebugMod}";
+                            ShowLocalNotify(s, 5000, "White");
+                            Log.Line(s);
+                        }
+                        break;
                     case PacketType.Invalid:
                     {
                         Log.Line($"invalid packet: {packetObj.PacketSize} - {packetObj.Packet.PType}");
@@ -462,7 +471,11 @@ namespace CoreSystems
                 case PacketType.ShootingChanged:
                     if (MyAPIGateway.Session.IsUserAdmin(packet.SenderId) && MyAPIGateway.Multiplayer.IsServer)
                     {
+                        var prevValue = Settings.Enforcement.ProhibitShooting;
                         Settings.Enforcement.ProhibitShooting = ((ShootingChangedPacket)packet).Value;
+
+                        if (prevValue == Settings.Enforcement.ProhibitShooting)
+                            break;
 
                         if (!MyAPIGateway.Utilities.IsDedicated)
                             ShowLocalNotify($"Shooting {(Settings.Enforcement.ProhibitShooting ? "Disabled" : "Enabled")}", 5000, "White");
@@ -480,6 +493,34 @@ namespace CoreSystems
                         });
                         Log.Line($"Shooting {(Settings.Enforcement.ProhibitShooting ? "Disabled" : "Enabled")}");
                     }
+                    break;
+                case PacketType.DebugTogglePacket:
+                    
+                    if (MyAPIGateway.Session.IsUserAdmin(packet.SenderId) && MyAPIGateway.Multiplayer.IsServer)
+                    {
+                        var prevValue = DebugMod;
+                        DebugMod = ((DebugTogglePacket)packetObj.Packet).Value;
+
+                        if (prevValue == DebugMod)
+                            break;
+
+                        if (!MyAPIGateway.Utilities.IsDedicated)
+                            ShowLocalNotify($"Debug set to {DebugMod}", 5000, "White");
+
+                        PacketsToClient.Add(new PacketInfo
+                        {
+                            Packet = new DebugTogglePacket
+                            {
+                                PType = PacketType.DebugTogglePacket,
+                                Value = DebugMod,
+                            },
+                            Entity = null,
+                            Function = null,
+                            SingleClient = false,
+                        });
+                        Log.Line($"Debug changed from client {packet.SenderId}: now {DebugMod}");
+                    }
+                    
                     break;
                 default:
                     packetObj.Report.PacketValid = false;

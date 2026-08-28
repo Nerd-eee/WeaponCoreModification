@@ -770,6 +770,35 @@ namespace CoreSystems
                                 DebugMod = !DebugMod;
                                 MyAPIGateway.Utilities.ShowNotification($"Debug has been toggled: {DebugMod}", 10000);
                                 break;
+                            case "debugserver":
+                                // validation is serverside as well
+                                if (MyAPIGateway.Session.MultiplayerAlive && MyAPIGateway.Session.IsUserAdmin(MyAPIGateway.Session.Player.SteamUserId))
+                                {
+                                    somethingUpdated = true;
+                                    DebugMod = !DebugMod;
+                                    MyAPIGateway.Utilities.ShowNotification($"Debug has been toggled: {DebugMod}", 10000);
+
+                                    DebugTogglePacket packet = new DebugTogglePacket
+                                    {
+                                        EntityId = 0,
+                                        SenderId = MyAPIGateway.Multiplayer.MyId,
+                                        PType = PacketType.DebugTogglePacket,
+                                        Value = DebugMod,
+                                    };
+
+                                    if (IsServer)
+                                    {
+                                        PacketsToClient.Add(new PacketInfo
+                                        {
+                                            Packet = packet
+                                        });
+                                    }
+                                    else
+                                    {
+                                        PacketsToServer.Add(packet);
+                                    }
+                                }
+                                break;
                             case "unsupportedmode":
                                 if (HandlesInput)
                                 {

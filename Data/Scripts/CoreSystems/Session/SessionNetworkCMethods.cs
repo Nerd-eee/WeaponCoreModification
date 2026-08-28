@@ -335,7 +335,7 @@ namespace CoreSystems
 
                 if (ammoPacket.IsSyncStepMarker)
                 {
-                    w.ShootTime = w.TicksPerShot * StepConst + RelativeTime;
+                    //w.ShootTime = w.TicksPerShot * StepConst + RelativeTime;
                 }
                 
                 if (w.ClientReloadWaitingForServer)

@@ -40,8 +40,15 @@ namespace CoreSystems.Platform
                 #endregion
 
                 var notReadyToShoot = Session.I.RelativeTime < ShootTime && !MyUtils.IsZero(Session.I.RelativeTime - ShootTime, 1E-04F);
+
+                var notSpun = System.HasBarrelRotation && !SpinBarrel();
+
+                //if (s.DebugMod)
+                //    Log.Line($"{Comp.Entity.EntityId}\t{System.HasBarrelRotation}\t{notSpun}\t{notReadyToShoot}\t{!(notSpun || notReadyToShoot)}\t{Session.I.RelativeTime}\t{ShootTime}", "shoot", tab: true);
+
+
                 #region Weapon timing
-                if (System.HasBarrelRotation && !SpinBarrel() || notReadyToShoot)
+                if (notSpun || notReadyToShoot)
                     return;
 
                 if (PosChangedTick != Session.I.SimulationCount)

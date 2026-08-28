@@ -227,7 +227,7 @@ namespace CoreSystems.Support
             else MyModAPIHelper.MyMultiplayer.Static.SendMessageTo(Session.StringPacketId, encodedString, directedSteamId, true);
         }
 
-        public static void Line(string text, string instanceName = null, bool exception = false)
+        public static void Line(string text, string instanceName = null, bool exception = false, bool tab = false)
         {
             try
             {
@@ -238,7 +238,7 @@ namespace CoreSystems.Support
                     if (name == _defaultInstance && !instance.Session.LocalVersion && instance.Paused())
                         return;
 
-                    var message = $"{DateTime.Now:MM-dd-yy_HH-mm-ss-fff} - " + text;
+                    var message = $"{DateTime.Now:MM-dd-yy_HH-mm-ss-fff}{(tab ? "\t" : " - ")}" + text;
                     instance.TextWriter.WriteLine(message);
                     instance.TextWriter.Flush();
                     var set = instance.Session.AuthorSettings;
