@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using CoreSystems.Platform;
-using CoreSystems.Projectiles;
 using CoreSystems.Support;
 using VRage.Game.Entity;
 using VRageMath;
@@ -74,6 +74,8 @@ namespace CoreSystems
             internal long SpecialPlayerId;
             internal bool Unreliable;
             internal bool HasPooledResource;
+            internal List<ulong> DeliveredClients;
+            internal ulong[] MustDeliverClients;
         }
 
         internal class ErrorPacket

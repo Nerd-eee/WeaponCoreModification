@@ -422,7 +422,8 @@ namespace CoreSystems.Projectiles
             {
                 Packet = deathPacket,
                 Entity = Info.Weapon.Comp.CoreEntity,
-                HasPooledResource = true
+                HasPooledResource = true,
+                MustDeliverClients = Info.AdvSyncClients.ToArray()
             });
         }
         
