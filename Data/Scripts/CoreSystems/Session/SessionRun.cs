@@ -372,6 +372,10 @@ namespace CoreSystems
             if (!LogInit)
             {
                 LogInit = true;
+                Log.Init(ShootGateLog, this, false);
+                Log.Init(ReloadSyncLog, this, false);
+                Log.Init(TargetSyncLog, this, false);
+                Log.Init(CycleSyncLog, this, false);
                 Log.Init("debug", this);
                 Log.Init("perf", this, false);
                 Log.Init("stats", this, false);
@@ -382,6 +386,8 @@ namespace CoreSystems
                 Log.Init("wepstats", this, false);
                 Log.Init("dmgstats", this, false);
                 Log.Init("griddmgstats", this, false);
+
+                Log.Init("shoot", this, false);
                 Log.Init(InputLog, this, false);
             }
 

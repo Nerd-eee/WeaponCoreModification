@@ -43,8 +43,8 @@ namespace CoreSystems.Platform
 
                 var notSpun = System.HasBarrelRotation && !SpinBarrel();
 
-                //if (s.DebugMod)
-                //    Log.Line($"{Comp.Entity.EntityId}\t{System.HasBarrelRotation}\t{notSpun}\t{notReadyToShoot}\t{!(notSpun || notReadyToShoot)}\t{Session.I.RelativeTime}\t{ShootTime}", "shoot", tab: true);
+                if (s.DebugMod)
+                    Log.Line($"{Comp.Entity.EntityId}\t{System.HasBarrelRotation}\t{notSpun}\t{notReadyToShoot}\t{!(notSpun || notReadyToShoot)}\t{Session.I.RelativeTime}\t{ShootTime}", "shoot", tab: true);
 
 
                 #region Weapon timing
@@ -125,6 +125,8 @@ namespace CoreSystems.Platform
                                 ClientLastShotId = Reload.StartId;
                                 if (s.MpActive && s.IsClient && !ClientReloadWaitingForServer)
                                 {
+                                    if (s.DebugMod)
+                                        Log.Line($"{Comp.CoreEntity.EntityId}\t{PartId}\t{tick}\twait-set\tammo:{ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{ClientMakeUpShots}\trelStart:{Reload.StartId}\tcliLastShot:{ClientLastShotId}", Session.ReloadSyncLog, tab: true);
                                     ClientReloadWaitingForServer = true;
                                     ClientReloadWaitingForServerBeginTick = s.Tick;
                                     s.SendClientAmmoRequest(this);
@@ -134,6 +136,9 @@ namespace CoreSystems.Platform
                         else if (ClientMakeUpShots > 0) 
                         {
                             --ClientMakeUpShots;
+
+                            if (s.DebugMod)
+                                Log.Line($"{Comp.CoreEntity.EntityId}\t{PartId}\t{tick}\tover-fire\tammo:{ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{ClientMakeUpShots + 1}->{ClientMakeUpShots}\trelStart:{Reload.StartId}\tcliLastShot:{ClientLastShotId}\tsrv:{Session.I.IsServer}\tcli:{Session.I.IsClient}", Session.ReloadSyncLog, tab: true);
 
                             if (ShootCount > 0)
                             {

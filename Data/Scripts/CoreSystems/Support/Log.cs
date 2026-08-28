@@ -128,6 +128,26 @@ namespace CoreSystems.Support
                 {
                     Stats("GridName\tMainOwner\tTotalDamage\tPrimaryDamage\tAOEDamage\tShieldDamage\tProjectileDamage", name);
                 }
+                else if (name == "shoot")
+                {
+                    Stats("Time\tEntity Id\tBarrel Rotation\tNot Spun\tNot Ready\tShooting\tRelative Time\tShoot Time", name);
+                }
+                else if (name == "shootgate")
+                {
+                    Stats("ShootGate - EntityId,PartId,Tick,Shoot,canShoot,shootRequest,aiCanShoot,requiresTarget,hasTarget,finish,overRide,noFireTarget,sig,reloadingGuard,overHeat,needsHeat,sequenceReady,sMode,ShootCount,AiShooting,Trigger,Freeze,WaitResp,ammo,makeup,loading,waitClnt,waitingSrv,relStart,cliStart,relEnd,cliEnd | quickSkip: EntityId,PartId,Tick,quickSkip,invalid,losBlocked,pause,maxSmarts,noLoadedAmmo,ammo,makeup,loading,waitClnt,waitingSrv | shoot-block(client): EntityId,PartId,Tick,shoot-block,canShoot,anyShot,autoShot,aiShooting,aiCanShoot,hasTarget,state,target,trigger,sMode,shootCount,onConf,noShootDelay,finish,freeze,waitResp,sig,blk,tickSinceChange | shot-opp(client,Tick20): EntityId,PartId,Tick,shot-opp,hasTarget,state,objNull,objMFC,centerZero,lock,aimed,rotorDist,maxDet,aiShooting,anyShot,autoShot,shootRequest,shootCount,canShoot,canB(1=overHeat,2=reloadingGuard,4=designator,8=!seqReady,16=needsHeat),loading,noAmmo,waitClnt,waitingSrv,makeup,ammo,finishShots,heat,ohCd,sig,target,packetEnt,tickSinceChange,validEst,resetSub,manual,painter,inRge,rt(readyToTrack approx),ae(AimAi 934 skip mask),cam(Control==Camera),dotT(barrel·clientPred),dotC(barrel·trueCenter),dotPkt(barrel·packet/serverIntercept),pktV(packet pos valid),pktMatch(packet ent==target),leadT(pred·center dot),az,el,minAz,maxAz,minEl,maxEl,lookAtFail | target-opp(client,Tick20): EntityId,PartId,Tick,target-opp,logs when shot-opp sample gate (hasTarget+IsEntity) is FALSE,hasTarget,state,tsc(tickSinceChange),objNull,target | shot-opp(server,Tick20): side:srv ...,lock=TargetLock,rt/ae/cam same,sDotT,sDotC,sLead,az,el,minAz,maxAz,minEl,maxEl,lookAtFail", name);
+                }
+                else if (name == "reloadsync")
+                {
+                    Stats("ReloadSync - EntityId,PartId,Tick,event | events: wait-set,reload-out-of-seq,reload-sync,ammo-out-of-seq,ammo-sync,client-reload-start,over-fire | fields: packetSeq,lastSeq,clearWait,ammo,makeup,loading,waitingSrv,relStart,cliStart,cliEnd,relEnd,runAmmoToMakeUp,burstStop,syncStep,cliLastShot,srv,cli", name);
+                }
+                else if (name == "targetsync")
+                {
+                    Stats("TargetSync - EntityId,PartId,Tick,event | events: server-push,client-target-sync,target-apply,client-reset | fields: target,state,posId,packetEnt,applied,hasTarget,syncId,curState,delayReset,reason,cond,projState | reset reasons: ServerReset(MarkedForClose/TargetObjectNull/DelayedClear),Expired,NoTargetsSeen", name);
+                }
+                else if (name == "cyclesync")
+                {
+                    Stats("CycleSync - EntityId,PartId,Tick,event | events: cycle-end,end-mode,arm,decline,freeze-set | fields: endAction,completed,lastCycle,weaponsFired,toggled,overCount,shootCount,burst,reloading,skipReload,isShooting,canShoot,alreadyShooting,ammo,makeup,burstDelay,reason,freeze,waitResp,Trigger,Count,CliToggle,sig,toggleCnt,cliToggle", name);
+                }
                 else
                 {
                     Line("Logging Started", name);

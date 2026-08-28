@@ -397,6 +397,9 @@ namespace CoreSystems.Platform
                         FreezeClientShoot = Session.I.IsClient; //if the initiators is a client pause future cycles until the server returns which cycle state to terminate on.
                         FreezeTick = Session.I.Tick;
 
+                        if (Session.I.DebugMod && FreezeClientShoot)
+                            Log.Line($"{Comp.CoreEntity.EntityId}\t{Session.I.Tick}\tfreeze-set\tcompleted:{CompletedCycles}\tlastCycle:{LastCycle}\ttoggleCnt:{state.ToggleCount}\tcliToggle:{ClientToggleCount}\ttrigger:{state.Trigger}", Session.CycleSyncLog, tab: true);
+
                         ulong packagedMessage;
                         EncodeShootState((uint)request, (uint)signal, CompletedCycles, (uint)ShootCodes.ToggleServerOff, out packagedMessage);
                         Session.I.SendShootRequest(Comp, packagedMessage, PacketType.ShootSync, RewriteShootSyncToServerResponse, playerId);
@@ -490,6 +493,12 @@ namespace CoreSystems.Platform
                     var toggled = w.Comp.ShootManager.ClientToggleCount > state.ToggleCount || state.Trigger == CoreComponent.Trigger.On;
                     var overCount = CompletedCycles >= LastCycle;
 
+                    if (Session.I.DebugMod)
+                    {
+                        var action = !toggled || overCount ? "EndShootMode" : "rearm";
+                        Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\tcycle-end\tendAction:{action}\tcompleted:{CompletedCycles}\tlastCycle:{LastCycle}\tweaponsFired:{WeaponsFired}\ttoggled:{toggled}\toverCount:{overCount}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{w.ClientMakeUpShots}\tburstDelay:{overrides.BurstDelay}", Session.CycleSyncLog, tab: true);
+                    }
+
                     if (!toggled || overCount)
                         EndShootMode(EndReason.ShootSync);
                     else
@@ -529,12 +538,17 @@ namespace CoreSystems.Platform
                         {
                             if (Session.I.IsServer) 
                                 Log.Line($"MakeReadyToShoot: canShoot:{canShoot} - alreadyShooting:{w.IsShooting} - reloading:{reloading} - skipReload:{skipReload} - CurrentAmmo:{w.ProtoWeaponAmmo.CurrentAmmo} - wait:{w.Reload.WaitForClient}", Session.InputLog);
+                            else if (Session.I.DebugMod)
+                                Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\tdecline\tcanShoot:{canShoot}\talreadyShooting:{w.IsShooting}\treloading:{reloading}\tskipReload:{skipReload}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{w.ClientMakeUpShots}\twait:{w.Reload.WaitForClient}", Session.CycleSyncLog, tab: true);
                             break;
                         }
 
                         weaponsReady += 1;
 
                         w.ShootCount += MathHelper.Clamp(burstTarget, 1, w.ProtoWeaponAmmo.CurrentAmmo + w.ClientMakeUpShots);
+
+                        if (Session.I.DebugMod)
+                            Log.Line($"{w.Comp.CoreEntity.EntityId}\t{w.PartId}\t{Session.I.Tick}\tarm\tshootCount:{w.ShootCount}\tburst:{burstTarget}\tammo:{w.ProtoWeaponAmmo.CurrentAmmo}\tmakeup:{w.ClientMakeUpShots}\treloading:{reloading}\tskipReload:{skipReload}\tisShooting:{w.IsShooting}", Session.CycleSyncLog, tab: true);
                     }
                     else
                         weaponsReady += 1;
@@ -562,6 +576,9 @@ namespace CoreSystems.Platform
             internal void EndShootMode(EndReason reason, bool skipNetwork = false)
             {
                 var wValues = Comp.Data.Repo.Values;
+
+                if (Session.I.DebugMod)
+                    Log.Line($"{Comp.CoreEntity.EntityId}\t{Session.I.Tick}\tend-mode\treason:{reason}\tcompleted:{CompletedCycles}\tlastCycle:{LastCycle}\tweaponsFired:{WeaponsFired}\tfreeze:{FreezeClientShoot}\twaitResp:{WaitingShootResponse}\tTrigger:{wValues.State.Trigger}\tCount:{wValues.State.ToggleCount}\tCliToggle:{ClientToggleCount}\tsig:{Signal}", Session.CycleSyncLog, tab: true);
 
                 for (int i = 0; i < Comp.TotalWeapons; i++)
                 {

@@ -121,6 +121,10 @@ namespace CoreSystems
         }
 
         public const string InputLog = "input";
+        public const string ShootGateLog = "shootgate";
+        public const string ReloadSyncLog = "reloadsync";
+        public const string TargetSyncLog = "targetsync";
+        public const string CycleSyncLog = "cyclesync";
         internal void Init()
         {
             if (Inited) return;
