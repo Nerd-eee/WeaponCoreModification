@@ -92,6 +92,13 @@ namespace CoreSystems
                 NSApi.LoadData();
             }
 
+            if (ToolCoreMod && !ToolCoreModApiLoaded)
+            {
+                ToolCoreModApiLoaded = true;
+                TCApi.Load();
+                TCApi.GetTCDefs(TCDefList);
+            }
+
             if (!CompsToStart.IsEmpty)
                 StartComps();
 

@@ -1179,6 +1179,8 @@ namespace CoreSystems
                     WaterMod = true;
                 else if (mod.PublishedFileId == 3514216428 || mod.GetPath().Contains("AppData\\Roaming\\SpaceEngineers\\Mods\\NerdShieldsFramework"))
                     NerdShieldMod = true;
+                else if (mod.PublishedFileId == 3040438530 || mod.GetPath().Contains("AppData\\Roaming\\SpaceEngineers\\Mods\\ToolCore"))
+                    ToolCoreMod = true;
                 if (mod.Name.Contains("VanillaToWCConverter") || mod.PublishedFileId == 3763050326)
                     EnableVanillaToWCConversions = true;
             }
