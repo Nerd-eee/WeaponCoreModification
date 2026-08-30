@@ -3,6 +3,7 @@ using System.Text;
 using CoreSystems.Platform;
 using CoreSystems.Support;
 using Sandbox.ModAPI;
+using VRage.Game;
 using VRage.Utils;
 using VRageMath;
 using static CoreSystems.Support.CoreComponent.Trigger;
@@ -12,6 +13,20 @@ namespace CoreSystems.Control
     public static partial class CustomActions
     {
         #region Call Actions
+
+        internal static void StartCountDown(IMyTerminalBlock block)
+        {
+            var comp = block?.Components?.Get<CoreComponent>() as Weapon.WeaponComponent;
+            if (comp == null || comp.Platform.State != CorePlatform.PlatformState.Ready) return;
+            Weapon.WeaponComponent.RequestCountDown(comp, true);
+        }
+
+        internal static void StopCountDown(IMyTerminalBlock block)
+        {
+            var comp = block?.Components?.Get<CoreComponent>() as Weapon.WeaponComponent;
+            if (comp == null || comp.Platform.State != CorePlatform.PlatformState.Ready) return;
+            Weapon.WeaponComponent.RequestCountDown(comp, false);
+        }
 
         internal static void RequestSetArmed(IMyTerminalBlock blk)
         {
@@ -802,6 +817,24 @@ namespace CoreSystems.Control
             var message = comp.Data.Repo.Values.Set.Overrides.ShootMode == Weapon.ShootManager.ShootModes.MouseControl ? Localization.GetText("ShootMouse") : Localization.GetText("ControlsInactive"); 
 
             sb.Append(message);
+        }
+
+        internal static void GetArmedTimeRemaining(IMyTerminalBlock block, StringBuilder sb)
+        {
+            var comp = block?.Components?.Get<CoreComponent>() as Weapon.WeaponComponent;
+            if (comp == null || comp.Platform.State != CorePlatform.PlatformState.Ready) return;
+
+            var value = (float)Math.Round(comp.Data.Repo.Values.Set.Overrides.ArmedTimer * MyEngineConstants.PHYSICS_STEP_SIZE_IN_SECONDS, 2);
+
+            if (value >= 59.95)
+                sb.Append("00:01:00");
+            else if (value < 0.33)
+                sb.Append("00:00:00");
+            else
+            {
+                sb.Append("00:")
+                    .Append(value.ToString("00:00"));
+            }
         }
 
         internal static void DecoyWriter(IMyTerminalBlock blk, StringBuilder sb)
