@@ -478,6 +478,9 @@ namespace CoreSystems
                     if (ai.DbUpdated || !wComp.UpdatedState || masterChange) 
                         wComp.DetectStateChanges(masterChange);
 
+                    if (wComp.IsBlock && wComp.IdlePower > 0 && wComp.IsWorking && wComp.Cube.ResourceSink.RequiredInputByType(wComp.GId) != wComp.IdlePower)
+                        wComp.PowerInit();
+
                     if (wComp.Platform.State != CorePlatform.PlatformState.Ready || wComp.IsDisabled || wComp.IsAsleep || !wComp.IsWorking || wComp.CoreEntity.MarkedForClose || wComp.LazyUpdate && !ai.DbUpdated && Tick > wComp.NextLazyUpdateStart)
                     {
                         if ((!wComp.IsWorking || wComp.IsDisabled) && wComp.PrimaryWeapon.Loading && wComp.PrimaryWeapon.ReloadEndTick < uint.MaxValue -1)
@@ -793,8 +796,7 @@ namespace CoreSystems
                         var reloadingGuard = aConst.Reloadable && w.ClientMakeUpShots == 0 && (w.Loading || noAmmo || w.Reload.WaitForClient || w.ClientReloadWaitingForServer);
                         var overHeat = w.PartState.Overheated && (w.OverHeatCountDown == 0 || w.OverHeatCountDown != 0 && w.OverHeatCountDown-- == 0);
                         var needsHeat = w.ActiveAmmoDef.AmmoDef.HeatNeededToFire > 0 && w.PartState.Heat < w.ActiveAmmoDef.AmmoDef.HeatNeededToFire;
-                        var powered = w.Comp.IdlePower > 0 ? w.Comp.Cube.ResourceSink.CurrentInputByType(w.Comp.GId) >= w.Comp.IdlePower : true;
-                        var canShoot = !overHeat && !reloadingGuard && !w.System.DesignatorWeapon && sequenceReady && !needsHeat && powered;
+                        var canShoot = !overHeat && !reloadingGuard && !w.System.DesignatorWeapon && sequenceReady && !needsHeat;
                         var paintedTarget = wComp.PainterMode && w.Target.TargetState == TargetStates.IsFake && (w.Target.IsAligned || ai.ControlComp != null && ai.ControlComp.Platform.Control.IsAimed);
                         var autoShot = paintedTarget || w.AiShooting && wValues.State.Trigger == Off;
                         var anyShot = !wComp.ShootManager.FreezeClientShoot && (w.ShootCount > 0 || onConfrimed) && noShootDelay || autoShot && sMode == Weapon.ShootManager.ShootModes.AiShoot;
