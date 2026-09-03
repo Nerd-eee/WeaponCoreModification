@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CoreSystems.Support;
 using Sandbox.Game.Entities;
@@ -54,7 +54,8 @@ namespace CoreSystems.Platform
                 if (PosChangedTick != Session.I.SimulationCount)
                     UpdatePivotPos();
 
-                ShootTime = TicksPerShot * Session.StepConst + Session.I.RelativeTime;
+                ShootTime = TicksPerShot * Session.StepConst * Session.I.RateCompensation + Session.I.RelativeTime + PendingPhaseCorrection;
+                PendingPhaseCorrection = 0;
 
                 LastShootTick = tick;
                 if (!IsShooting) StartShooting();
@@ -373,7 +374,8 @@ namespace CoreSystems.Platform
                 {
                     var burstDelay = (uint)System.Values.HardPoint.Loading.DelayAfterBurst;
                     ShotsFired = 0;
-                    ShootTime = burstDelay > TicksPerShot ? burstDelay * Session.StepConst + Session.I.RelativeTime : TicksPerShot * Session.StepConst + Session.I.RelativeTime;
+                    ShootTime = (burstDelay > TicksPerShot ? burstDelay : TicksPerShot) * Session.StepConst * Session.I.RateCompensation + Session.I.RelativeTime + PendingPhaseCorrection;
+                    PendingPhaseCorrection = 0;
                     if (System.Values.HardPoint.Loading.GiveUpAfter)
                         GiveUpTarget();
                 }
@@ -401,7 +403,8 @@ namespace CoreSystems.Platform
 
                 EventTriggerStateChanged(EventTriggers.BurstReload, true);
                 var burstDelay =  (uint)System.WConst.DelayAfterBurst;
-                ShootTime = burstDelay > TicksPerShot ? burstDelay * Session.StepConst + Session.I.RelativeTime : TicksPerShot * Session.StepConst + Session.I.RelativeTime;
+                ShootTime = (burstDelay > TicksPerShot ? burstDelay : TicksPerShot) * Session.StepConst * Session.I.RateCompensation + Session.I.RelativeTime + PendingPhaseCorrection;
+                PendingPhaseCorrection = 0;
                 if (System.WConst.GiveUpAfter)
                      GiveUpTarget();
             }

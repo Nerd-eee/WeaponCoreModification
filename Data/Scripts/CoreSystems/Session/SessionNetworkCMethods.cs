@@ -353,11 +353,13 @@ namespace CoreSystems
                     w.StopShooting();
                 }
 
-                // TODO: Re-implement this without a race condition nuking some shots clientside
-                //if (ammoPacket.IsSyncStepMarker && !w.IsShooting)
-                //{
-                //    w.ShootTime = w.TicksPerShot * StepConst + RelativeTime;
-                //}
+                if (ammoPacket.IsSyncStepMarker)
+                {
+                    var interval = w.TicksPerShot * StepConst * RateCompensation;
+                    var maxPull = Math.Min(interval * 0.25, 2d * StepConst);
+                    var correction = MathHelperD.Clamp(interval + RelativeTime - w.ShootTime, -maxPull, +maxPull);
+                    w.PendingPhaseCorrection = correction;
+                }
                 
                 if (w.ClientReloadWaitingForServer)
                 {
