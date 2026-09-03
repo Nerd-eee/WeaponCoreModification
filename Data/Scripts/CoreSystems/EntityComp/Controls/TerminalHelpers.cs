@@ -256,6 +256,17 @@ namespace CoreSystems.Control
             return comp.ConsumableSelectionPartIds.Count > 0;
         }
 
+        internal static bool ControlSelection(IMyTerminalBlock block)
+        {
+            var comp = block?.Components?.Get<CoreComponent>() as Weapon.WeaponComponent;
+
+            var valid = comp != null && comp.Platform.State == CorePlatform.PlatformState.Ready && comp.Type == CoreComponent.CompType.Weapon && comp.Data?.Repo != null;
+            if (!valid || Session.I.PlayerId != comp.Data.Repo.Values.State.PlayerId && !comp.TakeOwnerShip())
+                return false;
+
+            return (int)comp.PrimaryWeapon.System.ValidControlModes > 1;
+        }
+
         internal static bool EnableForceReload(IMyTerminalBlock block)
         {
             var comp = block?.Components?.Get<CoreComponent>() as Weapon.WeaponComponent;

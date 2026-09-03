@@ -1362,6 +1362,26 @@ namespace CoreSystems.Platform
                 for (int i = 0; i < Collection.Count; i++)
                 {
                     var wep = Collection[i];
+                    BlockUi.ControlList.Clear();
+
+                    int k = 0;
+                    if (wep.System.ValidControlModes.HasFlag(TargetingDef.ControlModes.Automatic))
+                    {
+                        BlockUi.ControlList.Add(new MyTerminalControlComboBoxItem { Key = k, Value = MyStringId.GetOrCompute(Localization.GetText("ControlAuto")) });
+                        k++;
+                    }
+                    if (wep.System.ValidControlModes.HasFlag(TargetingDef.ControlModes.Manual))
+                    {
+                        BlockUi.ControlList.Add(new MyTerminalControlComboBoxItem { Key = k, Value = MyStringId.GetOrCompute(Localization.GetText("ControlManual")) });
+                        k++;
+                    }
+                    if (wep.System.ValidControlModes.HasFlag(TargetingDef.ControlModes.Painter) && !Session.I.Settings.Enforcement.ProhibitHUDPainter)
+                    {
+                        BlockUi.ControlList.Add(new MyTerminalControlComboBoxItem { Key = k, Value = MyStringId.GetOrCompute(Localization.GetText("ControlPainter")) });
+                        k++;
+                    }
+
+
                     if (!wep.System.HasAmmoSelection)
                         continue;
 

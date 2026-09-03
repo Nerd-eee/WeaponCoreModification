@@ -790,6 +790,8 @@ namespace CoreSystems.Support
         internal bool HasDrone;
         internal bool DisableOverheat;
 
+        public readonly TargetingDef.ControlModes ValidControlModes;
+
         internal WeaponConstants(WeaponDefinition values)
         {
             ProjectileTags = new HashSet<uint>();
@@ -874,6 +876,18 @@ namespace CoreSystems.Support
             if (wO.HeatPerShot.HasValue) HeatPerShot = Math.Max(wO.HeatPerShot.Value, 0);
             if (wO.HeatSinkRate.HasValue) HeatSinkRate = Math.Max(wO.HeatSinkRate.Value, 0);
             if (wO.IdlePower.HasValue) IdlePower = Math.Max(wO.IdlePower.Value, 0.001f);
+
+            if (values.Targeting.ValidControlModes == null || values.Targeting.ValidControlModes.Length == 0)
+                ValidControlModes = TargetingDef.ControlModes.Automatic | TargetingDef.ControlModes.Manual | TargetingDef.ControlModes.Painter;
+            else
+            {
+                ValidControlModes = TargetingDef.ControlModes.Invalid;
+                foreach (var mode in values.Targeting.ValidControlModes)
+                    ValidControlModes |= mode;
+
+                if (ValidControlModes == TargetingDef.ControlModes.Invalid)
+                    ValidControlModes = TargetingDef.ControlModes.Automatic | TargetingDef.ControlModes.Manual | TargetingDef.ControlModes.Painter;
+            }
         }
     }
 }
