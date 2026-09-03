@@ -692,9 +692,12 @@ namespace CoreSystems
                 var packet = packetInfo.Packet;
                 var reliable = !packetInfo.Unreliable;
                 var bytes = MyAPIGateway.Utilities.SerializeToBinary(packet);
+                var mustDeliver = packetInfo.MustDeliverClients;
+                packetInfo.DeliveredClients?.Clear();
                 if (packetInfo.SingleClient)
                 {
                     MyModAPIHelper.MyMultiplayer.Static.SendMessageTo(ClientPacketId, bytes, packet.SenderId, reliable);
+                    packetInfo.DeliveredClients?.Add(packet.SenderId);
                 }
                 else
                 {
@@ -714,7 +717,7 @@ namespace CoreSystems
                             bytesRewrite = MyAPIGateway.Utilities.SerializeToBinary((Packet)packetInfo.Function(packet, steamId));
                         }
                         
-                        var sendPacket = notSender && packetInfo.Entity == null;
+                        var sendPacket = notSender && (packetInfo.Entity == null || mustDeliver != null && Array.IndexOf(mustDeliver, steamId) >= 0);
                         if (!sendPacket && !skipPlayer && notSender)
                         {
                             HashSet<long> entityIds;
@@ -746,6 +749,7 @@ namespace CoreSystems
                                 p.Player.SteamUserId,
                                 reliable
                             );
+                            packetInfo.DeliveredClients?.Add(steamId);
                         }
                     }
                 }

@@ -335,7 +335,10 @@ namespace CoreSystems
 
                 if (ammoPacket.IsSyncStepMarker)
                 {
-                    w.ShootTime = w.TicksPerShot * StepConst + RelativeTime;
+                    var interval = w.TicksPerShot * StepConst * RateCompensation;
+                    var maxPull = Math.Min(interval * 0.25, 2d * StepConst);
+                    var correction = MathHelperD.Clamp(interval + RelativeTime - w.ShootTime, -maxPull, +maxPull);
+                    w.PendingPhaseCorrection = correction;
                 }
                 
                 if (w.ClientReloadWaitingForServer)
