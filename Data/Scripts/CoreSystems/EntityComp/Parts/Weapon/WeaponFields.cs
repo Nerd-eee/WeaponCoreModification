@@ -194,6 +194,9 @@ namespace CoreSystems.Platform
         internal bool FinishShots;
         internal bool ScheduleAmmoChange;
         internal bool CriticalReaction;
+        internal bool DebugGateLast;
+        internal bool DebugQuickSkipLast;
+        internal int DebugShootBlockLast;
         internal bool FoundTopMostTarget;
         internal bool OutOfAmmo;
         internal bool TurretActive;
