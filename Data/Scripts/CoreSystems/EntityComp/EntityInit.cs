@@ -13,9 +13,9 @@ namespace CoreSystems.Support
 {
     public partial class CoreComponent
     {
-        internal void PowerInit()
+        private void PowerInit()
         {
-            Cube.ResourceSink.SetRequiredInputFuncByType(GId, () => Cube.IsWorking ? SinkPower : 0);
+            Cube.ResourceSink.SetRequiredInputFuncByType(GId, () => FunctionalBlock.Enabled ? SinkPower : 0);
             Cube.ResourceSink.SetMaxRequiredInputByType(GId, 0);
 
             Cube.ResourceSink.Update();

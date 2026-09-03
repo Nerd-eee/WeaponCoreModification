@@ -478,9 +478,6 @@ namespace CoreSystems
                     if (ai.DbUpdated || !wComp.UpdatedState || masterChange) 
                         wComp.DetectStateChanges(masterChange);
 
-                    if (wComp.IsBlock && wComp.IdlePower > 0 && wComp.IsWorking && wComp.Cube.ResourceSink.RequiredInputByType(wComp.GId) != wComp.IdlePower)
-                        wComp.PowerInit();
-
                     if (wComp.Platform.State != CorePlatform.PlatformState.Ready || wComp.IsDisabled || wComp.IsAsleep || !wComp.IsWorking || wComp.CoreEntity.MarkedForClose || wComp.LazyUpdate && !ai.DbUpdated && Tick > wComp.NextLazyUpdateStart)
                     {
                         if ((!wComp.IsWorking || wComp.IsDisabled) && wComp.PrimaryWeapon.Loading && wComp.PrimaryWeapon.ReloadEndTick < uint.MaxValue -1)
