@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CoreSystems.Platform;
@@ -52,6 +52,18 @@ namespace CoreSystems
             var localSim = MyAPIGateway.Physics.SimulationRatio;
             var serverSimClamped = MathHelperD.Clamp(serverSim, 0.001d, 1);
             DeltaTimeRatio = IsServer ? 1 : serverSimClamped / MathHelperD.Clamp(localSim, 0.001d, serverSimClamped);
+            
+            if (IsServer)
+            {
+                RateCompensation = 1;
+            }
+            else if (serverSim > 0d)
+            {
+                var rateTarget = MathHelperD.Clamp(localSim / serverSimClamped, 1d, 4d);
+                var rateAlpha = rateTarget > RateCompensation ? 0.02d : 0.25d;
+                RateCompensation += rateAlpha * (rateTarget - RateCompensation);
+            }
+            
             DeltaStepConst = DeltaTimeRatio * StepConst;
             RelativeTime += DeltaStepConst;
             ServerSimulation += serverSim;

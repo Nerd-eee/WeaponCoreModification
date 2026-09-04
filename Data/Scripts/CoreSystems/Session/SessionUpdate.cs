@@ -827,7 +827,6 @@ namespace CoreSystems
                         var reloadingGuard = aConst.Reloadable && w.ClientMakeUpShots == 0 && (w.Loading || noAmmo || w.Reload.WaitForClient || w.ClientReloadWaitingForServer);
                         var overHeat = w.PartState.Overheated && (w.OverHeatCountDown == 0 || w.OverHeatCountDown != 0 && w.OverHeatCountDown-- == 0);
                         var needsHeat = w.ActiveAmmoDef.AmmoDef.HeatNeededToFire > 0 && w.PartState.Heat < w.ActiveAmmoDef.AmmoDef.HeatNeededToFire;
-
                         var canShoot = !overHeat && !reloadingGuard && !w.System.DesignatorWeapon && sequenceReady && !needsHeat;
                         var paintedTarget = wComp.PainterMode && w.Target.TargetState == TargetStates.IsFake && (w.Target.IsAligned || ai.ControlComp != null && ai.ControlComp.Platform.Control.IsAimed);
                         var autoShot = paintedTarget || w.AiShooting && wValues.State.Trigger == Off;
