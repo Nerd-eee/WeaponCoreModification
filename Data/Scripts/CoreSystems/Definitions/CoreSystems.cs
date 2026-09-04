@@ -861,6 +861,20 @@ namespace CoreSystems.Support
             IdlePower = Math.Max(values.HardPoint.HardWare.IdlePower, 0.001f);
             DebugMode = values.HardPoint.Other.Debug;
 
+            if (values.Targeting.ValidControlModes == null || values.Targeting.ValidControlModes.Length == 0)
+                ValidControlModes = TargetingDef.ControlModes.Automatic | TargetingDef.ControlModes.Manual | TargetingDef.ControlModes.Painter;
+            else
+            {
+                ValidControlModes = TargetingDef.ControlModes.Invalid;
+                foreach (var mode in values.Targeting.ValidControlModes)
+                    ValidControlModes |= mode;
+
+                if (ValidControlModes == TargetingDef.ControlModes.Invalid)
+                    ValidControlModes = TargetingDef.ControlModes.Automatic | TargetingDef.ControlModes.Manual | TargetingDef.ControlModes.Painter;
+            }
+
+            MyLog.Default.WriteLineAndConsole(values.HardPoint.PartName + ": " + ValidControlModes.ToString());
+
             WeaponOverride wO;
             if (!Session.I.WeaponValuesMap.TryGetValue(values, out wO) || wO == null)
                 return;
@@ -877,17 +891,7 @@ namespace CoreSystems.Support
             if (wO.HeatSinkRate.HasValue) HeatSinkRate = Math.Max(wO.HeatSinkRate.Value, 0);
             if (wO.IdlePower.HasValue) IdlePower = Math.Max(wO.IdlePower.Value, 0.001f);
 
-            if (values.Targeting.ValidControlModes == null || values.Targeting.ValidControlModes.Length == 0)
-                ValidControlModes = TargetingDef.ControlModes.Automatic | TargetingDef.ControlModes.Manual | TargetingDef.ControlModes.Painter;
-            else
-            {
-                ValidControlModes = TargetingDef.ControlModes.Invalid;
-                foreach (var mode in values.Targeting.ValidControlModes)
-                    ValidControlModes |= mode;
-
-                if (ValidControlModes == TargetingDef.ControlModes.Invalid)
-                    ValidControlModes = TargetingDef.ControlModes.Automatic | TargetingDef.ControlModes.Manual | TargetingDef.ControlModes.Painter;
-            }
+            
         }
     }
 }

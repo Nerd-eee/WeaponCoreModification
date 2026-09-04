@@ -657,10 +657,21 @@ namespace CoreSystems.Platform
                         clearTargets = true;
                         break;
                     case WeaponOverrideSetting.ControlModes:
-                        o.Control = (ProtoWeaponOverrides.ControlModes)v;
-
-                        if (o.Control == ProtoWeaponOverrides.ControlModes.Painter && Session.I.Settings.Enforcement.ProhibitHUDPainter)
-                            o.Control = ProtoWeaponOverrides.ControlModes.Auto;
+                        switch ((ProtoWeaponOverrides.ControlModes)v)
+                        {
+                            case ProtoWeaponOverrides.ControlModes.Auto:
+                                if (comp.PrimaryWeapon.System.WConst.ValidControlModes.HasFlag(TargetingDef.ControlModes.Automatic))
+                                    o.Control = (ProtoWeaponOverrides.ControlModes)v;
+                                break;
+                            case ProtoWeaponOverrides.ControlModes.Manual:
+                                if (comp.PrimaryWeapon.System.WConst.ValidControlModes.HasFlag(TargetingDef.ControlModes.Manual))
+                                    o.Control = (ProtoWeaponOverrides.ControlModes)v;
+                                break;
+                            case ProtoWeaponOverrides.ControlModes.Painter:
+                                if (comp.PrimaryWeapon.System.WConst.ValidControlModes.HasFlag(TargetingDef.ControlModes.Painter) && !Session.I.Settings.Enforcement.ProhibitHUDPainter)
+                                    o.Control = (ProtoWeaponOverrides.ControlModes)v;
+                                break;
+                        }
 
                         if (comp.TypeSpecific == CompTypeSpecific.Rifle)
                             Session.I.RequestNotify($"Targeting Mode [{o.Control}]", 3000, "White", playerId, true);
@@ -1362,25 +1373,6 @@ namespace CoreSystems.Platform
                 for (int i = 0; i < Collection.Count; i++)
                 {
                     var wep = Collection[i];
-                    BlockUi.ControlList.Clear();
-
-                    int k = 0;
-                    if (wep.System.ValidControlModes.HasFlag(TargetingDef.ControlModes.Automatic))
-                    {
-                        BlockUi.ControlList.Add(new MyTerminalControlComboBoxItem { Key = k, Value = MyStringId.GetOrCompute(Localization.GetText("ControlAuto")) });
-                        k++;
-                    }
-                    if (wep.System.ValidControlModes.HasFlag(TargetingDef.ControlModes.Manual))
-                    {
-                        BlockUi.ControlList.Add(new MyTerminalControlComboBoxItem { Key = k, Value = MyStringId.GetOrCompute(Localization.GetText("ControlManual")) });
-                        k++;
-                    }
-                    if (wep.System.ValidControlModes.HasFlag(TargetingDef.ControlModes.Painter) && !Session.I.Settings.Enforcement.ProhibitHUDPainter)
-                    {
-                        BlockUi.ControlList.Add(new MyTerminalControlComboBoxItem { Key = k, Value = MyStringId.GetOrCompute(Localization.GetText("ControlPainter")) });
-                        k++;
-                    }
-
 
                     if (!wep.System.HasAmmoSelection)
                         continue;

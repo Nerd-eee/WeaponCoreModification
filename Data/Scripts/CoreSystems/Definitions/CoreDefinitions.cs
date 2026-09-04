@@ -337,7 +337,7 @@ namespace CoreSystems.Support
             [ProtoMember(29)] internal ControlModes[] ValidControlModes;
 
             [Flags]
-            public enum ControlModes
+            public enum ControlModes : uint
             {
                 Invalid = 0,
                 Automatic = 1,
